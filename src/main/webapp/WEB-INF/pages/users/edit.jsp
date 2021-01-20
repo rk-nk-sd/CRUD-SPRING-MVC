@@ -21,19 +21,23 @@
     ID: <c:out value="${user.id}" />
     </p>
 
-    Enter your name:
-    <input type="text" name="name" value="${user.name}" />
-    <c:if test="${empty user.name}">Note: you must enter a name</c:if>
+    Enter your login:
+    <input type="text" name="login" value="${user.login}" />
+    <c:if test="${empty user.login}">Note: you must enter a name</c:if>
     </p>
 
-    Enter your Surname:
-    <input type="text" name="surname" value="${user.surname}" />
-    <c:if test="${noName}">Note: you must enter a name</c:if>
+    Enter your password:
+    <input type="text" name="password" value="${user.password}" />
+    <c:if test="${noPassword}">Note: you must enter a name</c:if>
     </p>
 
-    Enter your email address:
-    <input type="text" name="email" value="${user.email}" />
-    <c:if test="${noEmail}">Note: you must enter an email address</c:if>
+    Enter your role:
+    <input type="text" name="role" value="
+        <c:forEach var="role" items="${user.roles}">
+                ${role.name}
+        </c:forEach>
+    " />
+    <c:if test="${noRole}">Note: you must enter a role</c:if>
     </p>
 
     <input type="submit" value="Сохранить" />

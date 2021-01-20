@@ -20,18 +20,22 @@
 <table>
     <tr>
         <th>Id</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Email</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
         <th>Action</th>
     </tr>
 <c:forEach var="user" items="${users}">
     <tr>
 
         <td><a href="users/${user.id}">${user.id}</a></td>
-        <td><a href="users/${user.id}">${user.name}</a></td>
-        <td><a href="users/${user.id}">${user.surname}</a></td>
-        <td><a href="users/${user.id}">${user.email}</a></td>
+        <td><a href="users/${user.id}">${user.login}</a></td>
+        <td><a href="users/${user.id}">${user.password}</a></td>
+        <td><a href="users/${user.id}">
+            <c:forEach var="role" items="${user.roles}">
+                ${role.name}
+            </c:forEach></a>
+        </td>
         <td>
             <a href="users/${user.id}" class="c">Сведения</a>
             <a href="users/${user.id}/edit" class="c">Редактировать</a>

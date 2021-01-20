@@ -5,7 +5,7 @@ a {
     text-decoration: none;
 }
 .c {
-    border: 1px solid #333; /* Рамка */
+    border: 1px solid #6699ff; /* Рамка */
     display: inline-block;
     padding: 5px 15px; /* Поля */
     text-decoration: none; /* Убираем подчёркивание */
@@ -38,4 +38,7 @@ td {
 }
 tr:hover td {
     color: #6699ff;
+}
+.castom {
+    margin-top: 35px;
 }

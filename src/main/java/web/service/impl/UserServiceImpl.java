@@ -1,23 +1,30 @@
-package web.service;
+package web.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.model.Role;
 import web.model.User;
+import web.repository.RoleRepository;
 import web.repository.UserRepository;
 import web.service.UserService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -44,4 +51,15 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+//    @Override
+//    public User findByUserName(String username) {
+//        return userRepository.findByUserName(username);
+//    }
+
+    @Override
+    public Role findByRoleName(String role) {
+        return roleRepository.findByRoleName(role);
+    }
 }
+

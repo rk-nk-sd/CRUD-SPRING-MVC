@@ -18,33 +18,28 @@
 
 <h1>Создать нового пользователя</h1>
 <hr/>
-<c:if test="${empty param.name}" var="noName" />
-<c:if test="${empty param.surname}" var="noSurname" />
-<c:if test="${empty param.email}" var="noEmail" />
+<c:if test="${empty param.login}" var="noLogin" />
+<c:if test="${empty param.password}" var="noPassword" />
+<c:if test="${empty param.role}" var="noRole" />
 
 <c:if
-    test="${not (noName or noSurname or noEmail)}">
-    <c:set value="${param.name}" var="name" scope="request"/>
-    <c:set value="${param.surname}" var="surname" scope="request"/>
-    <c:set value="${param.email}" var="email" scope="request"/>
-    <jsp:forward page="users" />
+    test="${not (noLogin or noPassword)}">
+    <c:set value="${param.login}" var="login" scope="request"/>
+    <c:set value="${param.password}" var="password" scope="request"/>
+    <c:set value="${param.password}" var="role" scope="request"/>
+    <jsp:forward page="admin" />
 </c:if>
 
 <form method="post" action="/users">
 
-    Enter your name:
-    <input type="text" name="name" value="${user.name}" />
-    <c:if test="${noName}">Note: you must enter a name</c:if>
+    Enter your login:
+    <input type="text" name="name" value="${user.login}" />
+    <c:if test="${noLogin}">Note: you must enter a name</c:if>
     </p>
 
-    Enter your Surname:
-    <input type="text" name="surname" value="${user.surname}" />
-    <c:if test="${noSurname}">Note: you must enter a name</c:if>
-    </p>
-
-    Enter your email address:
-    <input type="text" name="email" value="${user.email}" />
-    <c:if test="${noEmail}">Note: you must enter an email address</c:if>
+    Enter your password:
+    <input type="text" name="surname" value="${user.password}" />
+    <c:if test="${noPassword}">Note: you must enter a password</c:if>
     </p>
 
     <input type="submit" value="Создать пользователя" />

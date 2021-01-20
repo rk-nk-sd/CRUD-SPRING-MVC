@@ -22,15 +22,19 @@
     </tr>
     <tr>
         <td>Имя</td>
-        <td>${user.getName()}</td>
+        <td>${user.getLogin()}</td>
     </tr>
     <tr>
-        <td>Фамилия</td>
-        <td>${user.getSurname()}</td>
+        <td>Пароль</td>
+        <td>${user.getPassword()}</td>
     </tr>
     <tr>
-        <td>E-mail</td>
-        <td>${user.getEmail()}</td>
+        <td>Роль</td>
+        <td>
+            <c:forEach var="role" items="${user.roles}">
+                ${role.name}
+            </c:forEach>
+        </td>
     </tr>
 </table>
 <hr/>
