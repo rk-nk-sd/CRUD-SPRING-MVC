@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col-sm-3 col-lg-3"><!-- <h1>Список пользователей</h1> --></div>
-        <div class="col-sm-9 col-lg-9"><a href="/admin/new-user" class="c">Добавить нового пользователя</a></div>
+        <div class="col-sm-9 col-lg-9"><a href="/admin/users/new-user" class="c">Добавить нового пользователя</a></div>
     </div>
     <div class="row castom">
         <%--        Меню--%>
@@ -29,8 +29,8 @@
             <ul class="nav">
                 <li class="nav-header">Главные ссылки</li>
                 <li class="active"><a href="/admin">Главная</a></li>
-                <li><a href="#">Обратная связь</a></li>
-                <li><a href="#">Каталог</a></li>
+                <li><a href="/admin/users">Пользователи</a></li>
+                <li><a href="/admin/roles">Роли и права</a></li>
                 <li class="nav-header">Дополнительные</li>
                 <li><a href="#">Наши филиалы</a></li>
                 <li><a href="#">Календарь мероприятий</a></li>
@@ -48,10 +48,10 @@
                     test="${not (noLogin or noPassword)}">
                 <c:set value="${param.login}" var="login" scope="request"/>
                 <c:set value="${param.password}" var="password" scope="request"/>
-                <jsp:forward page="admin" />
+                <jsp:forward page="/admin/users" />
             </c:if>
 
-            <form method="post" action="/admin">
+            <form method="post" action="/admin/users">
 
                 Enter new login:
                 <input type="text" name="login" value="${user.login}" />

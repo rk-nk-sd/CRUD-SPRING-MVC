@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col-sm-3 col-lg-3"><!-- <h1>Список пользователей</h1> --></div>
-        <div class="col-sm-9 col-lg-9"><a href="/admin/new-user" class="c">Добавить нового пользователя</a></div>
+        <div class="col-sm-9 col-lg-9"><a href="/admin/users/new-user" class="c">Добавить нового пользователя</a></div>
     </div>
     <div class="row castom">
 <%--        Меню--%>
@@ -29,8 +29,8 @@
             <ul class="nav">
                 <li class="nav-header">Главные ссылки</li>
                 <li class="active"><a href="/admin">Главная</a></li>
-                <li><a href="#">Обратная связь</a></li>
-                <li><a href="#">Каталог</a></li>
+                <li><a href="/admin/users">Пользователи</a></li>
+                <li><a href="/admin/roles">Роли и права</a></li>
                 <li class="nav-header">Дополнительные</li>
                 <li><a href="#">Наши филиалы</a></li>
                 <li><a href="#">Календарь мероприятий</a></li>
@@ -51,7 +51,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="user" items="${users}">
-                <tr onclick="window.location.href='/admin/${user.id}'">
+                <tr onclick="window.location.href='/admin/users/${user.id}'">
 <%--                    <a href="/users/${user.id}">--%>
                     <th scope="row">${user.id}</th>
                     <td>${user.login}</td>

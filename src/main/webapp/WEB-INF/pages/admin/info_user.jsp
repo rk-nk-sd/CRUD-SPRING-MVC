@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col-sm-3 col-lg-3"><!-- <h1>Список пользователей</h1> --></div>
-        <div class="col-sm-9 col-lg-9"><a href="/admin/new-user" class="c">Добавить нового пользователя</a> <a href="${user.id}/edit" class="c">Редактировать</a></div>
+        <div class="col-sm-9 col-lg-9"><a href="/admin/users/new-user" class="c">Добавить нового пользователя</a> <a href="${user.id}/edit" class="c">Редактировать</a></div>
     </div>
     <div class="row castom">
         <%--        Меню--%>
@@ -29,8 +29,8 @@
             <ul class="nav">
                 <li class="nav-header">Главные ссылки</li>
                 <li class="active"><a href="/admin">Главная</a></li>
-                <li><a href="/admin">Обратная связь</a></li>
-                <li><a href="#">Каталог</a></li>
+                <li><a href="/admin/users">Пользователи</a></li>
+                <li><a href="/admin/roles">Роли и права</a></li>
                 <li class="nav-header">Дополнительные</li>
                 <li><a href="#">Наши филиалы</a></li>
                 <li><a href="#">Календарь мероприятий</a></li>
@@ -62,7 +62,7 @@
                     </td>
                 </tr>
             </table>
-            <form method="POST" actions="/admin/${user.id}">
+            <form method="POST" actions="/admin/users/${user.id}">
                 <input type="hidden" name="_method" value="delete"/>
                 <input type="submit" value="Delete"/>
             </form>

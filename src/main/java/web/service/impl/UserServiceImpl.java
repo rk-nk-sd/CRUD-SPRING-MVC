@@ -7,6 +7,7 @@ import web.model.Role;
 import web.model.User;
 import web.repository.RoleRepository;
 import web.repository.UserRepository;
+import web.repository.edition.RoleByNameRepository;
 import web.service.UserService;
 
 import java.util.HashSet;
@@ -19,12 +20,12 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final RoleByNameRepository roleByNameRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleByNameRepository roleByNameRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.roleByNameRepository = roleByNameRepository;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Role findByRoleName(String role) {
-        return roleRepository.findByRoleName(role);
+        return roleByNameRepository.findByRoleName(role);
     }
 }
 

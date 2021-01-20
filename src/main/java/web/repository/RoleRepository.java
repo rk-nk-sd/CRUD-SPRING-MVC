@@ -8,7 +8,6 @@ import web.model.Role;
 import web.model.User;
 
 @Repository
-public interface RoleRepository  extends JpaRepository<Role, String> {
-    @Query("select r from Role r where r.name=:role")
-    Role findByRoleName(@Param("role") String role);
+public interface RoleRepository {
+
 }

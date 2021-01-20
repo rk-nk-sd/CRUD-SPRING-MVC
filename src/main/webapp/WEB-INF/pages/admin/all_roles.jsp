@@ -39,7 +39,26 @@
             </ul>
         </div>
         <%--    Основной контейнер--%>
-        <div class="col-sm-8">Основной контейнер</div>
+        <div class="col-sm-8">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Роль</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="role" items="${roles}">
+                    <tr onclick="window.location.href='/admin/users/${role.id}'">
+                            <%--                    <a href="/users/${user.id}">--%>
+                        <th scope="row">${role.id}</th>
+                        <td>${role.name}</td>
+                            <%--                    </a>--%>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="row">
         <div class="col-xs-12"><!--Подвал--></div>
