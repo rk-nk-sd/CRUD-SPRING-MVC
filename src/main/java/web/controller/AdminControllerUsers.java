@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -90,18 +91,20 @@ public class AdminControllerUsers {
                           @PathVariable("id") int id,
                           @RequestParam(name = "login") String login,
                           @RequestParam(name = "password") String password,
-                          @RequestParam(name = "role") String role){
+                          @RequestParam(name = "addrole") String[] role){
         //Обновляет пользователя
         if(bindingResult.hasErrors())
             return "admin/edit_user";
 
         Set<Role> roles = new HashSet<>();
-
-//        for (String role : listroles.) {
-//            roles.add(userService.findByRoleName(role));
-//        }
-        roles.add(userService.findByRoleName(role));
-        roles.add(userService.findByRoleName("ROLE_USER"));
+//        Set<Role> roles = user.getRoles();
+        for (String variable : role) {
+            // некоторые операторы
+            // ...
+            roles.add(userService.findByRoleName(variable));
+        }
+//        roles.add(userService.findByRoleName(role));
+//        roles.add(userService.findByRoleName("ROLE_USER"));
 
         user.setLogin(login);
         user.setPassword(passwordEncoder.encode(password));

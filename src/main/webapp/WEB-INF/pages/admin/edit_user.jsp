@@ -65,7 +65,7 @@
 
                 Edit user role:
 
-                <p><select size="1" name="role">
+                <p><select multiple size="3" name="addrole">
                     <c:forEach var="role" items="${roles}">
                     <option value="${role.name}">${role.name}</option>
                     </c:forEach>
