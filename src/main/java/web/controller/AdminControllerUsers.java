@@ -96,8 +96,12 @@ public class AdminControllerUsers {
             return "admin/edit_user";
 
         Set<Role> roles = new HashSet<>();
-//        roles.add(roleRepository.getOne(1L));
+
+//        for (String role : listroles.) {
+//            roles.add(userService.findByRoleName(role));
+//        }
         roles.add(userService.findByRoleName(role));
+        roles.add(userService.findByRoleName("ROLE_USER"));
 
         user.setLogin(login);
         user.setPassword(passwordEncoder.encode(password));
