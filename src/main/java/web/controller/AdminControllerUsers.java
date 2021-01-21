@@ -1,66 +1,70 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
-import web.repository.RoleRepository;
 import web.service.RoleService;
 import web.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/users")
 public class AdminControllerUsers {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final List<Role> roleList;
 
     @Autowired
-    public AdminControllerUsers(UserService userService) {
+    public AdminControllerUsers(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService) {
+
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.roleList = roleService.getAllRole();
     }
 
 
     @GetMapping()
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, Principal principal) {
         //Получим список пользователей и передадим в представление
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("userinfo", principal);
         return "admin/index";
     }
 
     @GetMapping("/{id}")
-    public String getCurrentUser(@PathVariable("id") int id, Model model) {
+    public String getCurrentUser(@PathVariable("id") int id, Model model, Principal principal) {
         //Получим одного пользователя по id и передадим на представление
         model.addAttribute("user", userService.getCurrentUser(id));
+        model.addAttribute("userinfo", principal);
         return "admin/info_user";
     }
 
     @GetMapping("/new-user")
-    public String createUserForm(@ModelAttribute("user") User user) {
+    public String createUserForm(@ModelAttribute("user") User user, Model model, Principal principal) {
         //Вернет html форму для создания нового пользователя
+        model.addAttribute("userinfo", principal);
         return "admin/create_user";
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser (Model model,@PathVariable("id") int id){
+    public String editUser (Model model,@PathVariable("id") int id, Principal principal){
         //Вернет html форму для редактирования страницы пользователя
         model.addAttribute("user", userService.getCurrentUser(id));
+        model.addAttribute("roles", roleList);
+        model.addAttribute("userinfo", principal);
         return "admin/edit_user";
     }
 
-    /**
-     * Ошибка позднее разобраться
-     * @param user
-     * @param bindingResult
-     * @param login
-     * @param password
-     * @return
-     */
     @PostMapping()
     public String createUser (@ModelAttribute("user") @Valid User user,
                               BindingResult bindingResult,
@@ -73,7 +77,7 @@ public class AdminControllerUsers {
         roles.add(userService.findByRoleName("ROLE_USER"));
 
         user.setLogin(login);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         user.setRoles(roles);
 
         userService.addNewUser(user);
@@ -96,7 +100,7 @@ public class AdminControllerUsers {
         roles.add(userService.findByRoleName(role));
 
         user.setLogin(login);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         user.setRoles(roles);
 
         userService.update(user);

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.Role;
+import web.model.User;
 import web.repository.RoleRepository;
 import web.repository.UserRepository;
 import web.repository.edition.RoleByIdRepository;
@@ -33,8 +34,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         roleByIdRepository.deleteById(id);
+    }
+
+    @Override
+    public Role getCurrentRole(Long id) {
+        return roleByIdRepository.findById(id);
     }
 
     @Override

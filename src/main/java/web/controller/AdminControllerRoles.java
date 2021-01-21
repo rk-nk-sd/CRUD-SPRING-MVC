@@ -11,6 +11,7 @@ import web.service.RoleService;
 import web.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,89 +27,71 @@ public class AdminControllerRoles {
 
 
     @GetMapping()
-    public String getAllRoles(Model model) {
+    public String getAllRoles(Model model, Principal principal) {
         //Получим список пользователей и передадим в представление
         model.addAttribute("roles", roleService.getAllRole());
+        model.addAttribute("userinfo", principal);
         return "admin/all_roles";
     }
 
-//    @GetMapping("/{id}")
-//    public String getCurrentUser(@PathVariable("id") int id, Model model) {
-//        //Получим одного пользователя по id и передадим на представление
-//        model.addAttribute("user", userService.getCurrentUser(id));
-//        return "admin/info_user";
-//    }
-//
-//    @GetMapping("/new-user")
-//    public String createUserForm(@ModelAttribute("user") User user) {
-//        //Вернет html форму для создания нового пользователя
-//        return "admin/create_user";
-//    }
-//
-//    @GetMapping("/{id}/edit")
-//    public String editUser (Model model,@PathVariable("id") int id){
-//        //Вернет html форму для редактирования страницы пользователя
-//        model.addAttribute("user", userService.getCurrentUser(id));
-//        return "admin/edit_user";
-//    }
-//
-//    /**
-//     * Ошибка позднее разобраться
-//     * @param user
-//     * @param bindingResult
-//     * @param login
-//     * @param password
-//     * @return
-//     */
-//    @PostMapping()
-//    public String createUser (@ModelAttribute("user") @Valid User user,
-//                              BindingResult bindingResult,
-//                              @RequestParam(name = "login") String login,
-//                              @RequestParam(name = "password") String password){
-//        if(bindingResult.hasErrors())
-//            return "admin/create_user";
-//
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(userService.findByRoleName("ROLE_USER"));
-//
-//        user.setLogin(login);
-//        user.setPassword(password);
-//        user.setRoles(roles);
-//
-//        userService.addNewUser(user);
-//        return "redirect:/admin";
-//    }
-//
-//    @PatchMapping("/{id}")
-//    public String update (@ModelAttribute("user") @Valid User user,
-//                          BindingResult bindingResult,
-//                          @PathVariable("id") int id,
-//                          @RequestParam(name = "login") String login,
-//                          @RequestParam(name = "password") String password,
-//                          @RequestParam(name = "role") String role){
-//        //Обновляет пользователя
-//        if(bindingResult.hasErrors())
-//            return "admin/edit_user";
-//
-//        Set<Role> roles = new HashSet<>();
-////        roles.add(roleRepository.getOne(1L));
-//        roles.add(userService.findByRoleName(role));
-//
-//        user.setLogin(login);
-//        user.setPassword(password);
-//        user.setRoles(roles);
-//
-//        userService.update(user);
-//        return "redirect:/admin";
-//    }
-//
-//
-//    @DeleteMapping("/{id}")
-//    public String delete ( @PathVariable("id") int id){
-//        //Удаляет пользователя
-//        userService.delete(id);
-//        return "redirect:/admin";
-//    }
+    @GetMapping("/{id}")
+    public String getRole(@PathVariable("id") Long id, Model model, Principal principal) {
+        //Получим одного пользователя по id и передадим на представление
+        model.addAttribute("role", roleService.getCurrentRole(id));
+        model.addAttribute("userinfo", principal);
+        return "admin/info_role";
+    }
+
+    @GetMapping("/new-role")
+    public String createRoleForm(@ModelAttribute("role") Role role, Model model, Principal principal) {
+        //Вернет html форму для создания нового пользователя
+        model.addAttribute("userinfo", principal);
+        return "admin/create_role";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editRole (Model model,@PathVariable("id") Long id, Principal principal){
+        //Вернет html форму для редактирования страницы пользователя
+        model.addAttribute("role", roleService.getCurrentRole(id));
+        model.addAttribute("userinfo", principal);
+        return "admin/edit_role";
+    }
+
+    @PostMapping()
+    public String createUser (@ModelAttribute("role") @Valid Role role,
+                              BindingResult bindingResult,
+                              @RequestParam(name = "rolename") String rolename){
+        if(bindingResult.hasErrors())
+            return "admin/create_role";
+
+        role.setName(rolename);
+        roleService.createRole(role);
+
+        return "redirect:/admin/roles";
+    }
+
+    @PatchMapping("/{id}")
+    public String update (@ModelAttribute("role") @Valid Role role,
+                          BindingResult bindingResult,
+                          @PathVariable("id") int id,
+                          @RequestParam(name = "rolename") String rolename){
+        //Обновляет роль
+        if(bindingResult.hasErrors())
+            return "admin/edit_role";
+
+        role.setName(rolename);
+        roleService.update(role);
+
+        return "redirect:/admin/roles";
+    }
+
+
+    @DeleteMapping("/{id}")
+    public String delete ( @PathVariable("id") Long id){
+        //Удаляет пользователя
+        roleService.delete(id);
+        return "redirect:/admin/roles";
+    }
 
 
 }

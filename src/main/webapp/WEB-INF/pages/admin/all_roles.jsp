@@ -17,11 +17,18 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-lg-7"><h1>Список пользователей</h1></div>
-        <div class="col-sm-6 col-lg-5"><p>Информация о текущем пользователе</p></div>
+        <div class="col-sm-6 col-lg-5">
+            <h6 class="hi">Привет, ${userinfo.name}! | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h6>
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <form id="logoutForm" method="post" action="${contextPath}/logout">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </c:if>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-3 col-lg-3"><!-- <h1>Список пользователей</h1> --></div>
-        <div class="col-sm-9 col-lg-9"><a href="/admin/roles/new-user" class="c">Добавить нового пользователя</a></div>
+        <div class="col-sm-9 col-lg-9"><a href="/admin/roles/new-role" class="c">Добавить новую роль</a></div>
     </div>
     <div class="row castom">
         <%--        Меню--%>
@@ -32,7 +39,7 @@
                 <li><a href="/admin/users">Пользователи</a></li>
                 <li><a href="/admin/roles">Роли и права</a></li>
                 <li class="nav-header">Дополнительные</li>
-                <li><a href="#">Наши филиалы</a></li>
+                <li><a href="/users">Профиль</a></li>
                 <li><a href="#">Календарь мероприятий</a></li>
                 <li class="nav-divider"></li>
                 <li><a href="#">Вакансии</a></li>
@@ -49,11 +56,9 @@
                 </thead>
                 <tbody>
                 <c:forEach var="role" items="${roles}">
-                    <tr onclick="window.location.href='/admin/users/${role.id}'">
-                            <%--                    <a href="/users/${user.id}">--%>
+                    <tr onclick="window.location.href='/admin/roles/${role.id}'">
                         <th scope="row">${role.id}</th>
                         <td>${role.name}</td>
-                            <%--                    </a>--%>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -11,6 +11,9 @@ public interface UserService {
     User getCurrentUser(int id);
     User update(User user);
     List<User> getAllUsers();
-//    User findByUserName(String username);
+
+    User findByUserName(String username);
+
+    //    User findByUserName(String username);
     Role findByRoleName(String role);
 }

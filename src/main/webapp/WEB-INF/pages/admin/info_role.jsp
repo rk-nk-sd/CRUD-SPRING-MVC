@@ -16,21 +16,20 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-sm-6 col-lg-7"><h1>Список пользователей</h1></div>
-        <div class="col-sm-6 col-lg-5"><h6 class="hi">Привет, ${userinfo.name}!</h6>
-            | <a onclick="document.forms['logoutForm'].submit()">Logout</a></div>
-
-        <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <form id="logoutForm" method="post" action="${contextPath}/logout">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </form>
-        </c:if>
-
-
+        <div class="col-sm-6 col-lg-7"><h1>Сведения о роли</h1></div>
+        <div class="col-sm-6 col-lg-5">
+            <h6 class="hi">Привет, ${userinfo.name}! | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h6>
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <form id="logoutForm" method="post" action="${contextPath}/logout">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </c:if>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-3 col-lg-3"><!-- <h1>Список пользователей</h1> --></div>
-        <div class="col-sm-9 col-lg-9"><a href="/admin/roles/new-user" class="c">Добавить нового пользователя</a></div>
+        <div class="col-sm-9 col-lg-9"><a href="/admin/roles/new-role" class="c">Добавить новую роль</a>
+            <a href="${role.id}/edit" class="c">Редактировать</a></div>
     </div>
     <div class="row castom">
         <%--        Меню--%>
@@ -41,14 +40,33 @@
                 <li><a href="/admin/users">Пользователи</a></li>
                 <li><a href="/admin/roles">Роли и права</a></li>
                 <li class="nav-header">Дополнительные</li>
-                <li><a href="#">Наши филиалы</a></li>
+                <li><a href="/users">Профиль</a></li>
                 <li><a href="#">Календарь мероприятий</a></li>
                 <li class="nav-divider"></li>
                 <li><a href="#">Вакансии</a></li>
             </ul>
         </div>
         <%--    Основной контейнер--%>
-        <div class="col-sm-8">Основной контейнер</div>
+        <div class="col-sm-8">
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>${role.id}</td>
+                </tr>
+                <tr>
+                    <td>Роль</td>
+                    <td>
+<%--                        <c:forEach var="role" items="${role.roles}">--%>
+                            ${role.getName()}
+<%--                        </c:forEach>--%>
+                    </td>
+                </tr>
+            </table>
+            <form method="POST" actions="/admin/roles/${role.id}">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" value="Delete"/>
+            </form>
+        </div>
     </div>
     <div class="row">
         <div class="col-xs-12"><!--Подвал--></div>
