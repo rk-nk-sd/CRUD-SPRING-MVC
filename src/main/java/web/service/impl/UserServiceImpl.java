@@ -5,14 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.Role;
 import web.model.User;
+import web.repository.RoleRepository;
 import web.repository.UserRepository;
-import web.repository.edition.RoleByNameRepository;
-import web.repository.edition.UserByNameRepository;
+//import web.repository.edition.UserByNameRepository;
 import web.service.UserService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Service
@@ -20,17 +18,14 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleByNameRepository roleByNameRepository;
-    private final UserByNameRepository userByNameRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           RoleByNameRepository roleByNameRepository,
-                           UserByNameRepository userByNameRepository) {
+                           RoleRepository roleRepository) {
 
         this.userRepository = userRepository;
-        this.roleByNameRepository = roleByNameRepository;
-        this.userByNameRepository = userByNameRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -58,12 +53,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUserName(String username) {
-        return userByNameRepository.findByUserName(username);
+        return userRepository.findByName(username);
     }
 
     @Override
     public Role findByRoleName(String role) {
-        return roleByNameRepository.findByRoleName(role);
+        return roleRepository.findByRoleName(role);
     }
 }
 

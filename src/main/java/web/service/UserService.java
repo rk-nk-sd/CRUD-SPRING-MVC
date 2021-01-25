@@ -14,6 +14,5 @@ public interface UserService {
 
     User findByUserName(String username);
 
-    //    User findByUserName(String username);
     Role findByRoleName(String role);
 }

@@ -10,27 +10,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.Role;
 import web.model.User;
-import web.repository.edition.UserByNameRepository;
+import web.repository.UserRepository;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final UserByNameRepository userByNameRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserByNameRepository userByNameRepository) {
-        this.userByNameRepository = userByNameRepository;
+    public UserDetailsServiceImpl(UserRepository userByNameRepository) {
+        this.userRepository = userByNameRepository;
     }
 
-    // «Пользователь» – это просто Object. В большинстве случаев он может быть
-    //  приведен к классу UserDetails.
-    // Для создания UserDetails используется интерфейс UserDetailsService, с единственным методом:
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userByNameRepository.findByUserName(s);
+        User user = userRepository.findByName(s);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
