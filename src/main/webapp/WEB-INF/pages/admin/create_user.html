@@ -1,29 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: roman
-  Date: 20.01.2021
-  Time: 15:03
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Title</title>
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"  type="text/css"/>
-    <link href="${contextPath}/css/style.css" rel="stylesheet"  type="text/css"/>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" type="text/css"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-lg-7"><h1>Создать нового пользователя</h1></div>
         <div class="col-sm-6 col-lg-5">
-            <h6 class="hi">Привет, ${userinfo.name}! | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h6>
-            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <form id="logoutForm" method="post" action="${contextPath}/logout">
+            <h6 class="hi">Привет, <th:block th:text="${userinfo.name}"></th:block>! | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h6>
+            <th:block th:if="${userinfo.name} != null">
+                <form id="logoutForm" th:method="post" th:action="@{/logout}">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
-            </c:if>
+            </th:block>
         </div>
     </div>
     <div class="row">
@@ -31,7 +24,7 @@
         <div class="col-sm-9 col-lg-9"><a href="/admin/users/new-user" class="c">Добавить нового пользователя</a></div>
     </div>
     <div class="row castom">
-        <%--        Меню--%>
+<!--                Меню-->
         <div class="col-sm-4">
             <ul class="nav">
                 <li class="nav-header">Главные ссылки</li>
@@ -45,29 +38,21 @@
                 <li><a href="#">Вакансии</a></li>
             </ul>
         </div>
-        <%--    Основной контейнер--%>
+<!--            Основной контейнер-->
         <div class="col-sm-8">
 
-            <c:if test="${empty param.login}" var="noLogin" />
-            <c:if test="${empty param.password}" var="noPassword" />
+            <form th:method="post" th:action="@{/admin/users}" th:object="${user}">
 
-            <c:if
-                    test="${not (noLogin or noPassword)}">
-                <c:set value="${param.login}" var="login" scope="request"/>
-                <c:set value="${param.password}" var="password" scope="request"/>
-                <jsp:forward page="/admin/users" />
-            </c:if>
-
-            <form method="post" action="/admin/users">
-
-                Enter new login:
-                <input type="text" name="login" value="${user.login}" />
-                <c:if test="${noLogin}">Note: you must enter a name</c:if>
+                Введите логин:
+                </p>
+                <input type="text" name="login" required/>
+                <div th:if="${#fields.hasErrors('login')}"></div>
                 </p>
 
-                Enter new password:
-                <input type="text" name="password" value="${user.password}" />
-                <c:if test="${noPassword}">Note: you must enter a password</c:if>
+                Введите пароль:
+                </p>
+                <input type="text" name="password" required/>
+                <div  th:if="${#fields.hasErrors('password')}"></div>
                 </p>
 
                 <input type="submit" value="Создать пользователя" />
@@ -82,6 +67,5 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-
 </body>
 </html>

@@ -28,7 +28,6 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.setRequestCharacterEncoding("UTF-8");
-        servletContext.setResponseCharacterEncoding("UTF-8");
         registerHiddenFieldFilter(servletContext);
 
     }

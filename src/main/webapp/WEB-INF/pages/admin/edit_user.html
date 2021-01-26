@@ -1,29 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: roman
-  Date: 20.01.2021
-  Time: 15:03
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Title</title>
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"  type="text/css"/>
-    <link href="${contextPath}/css/style.css" rel="stylesheet"  type="text/css"/>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" type="text/css"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-lg-7"><h1>Редактировать пользователя</h1></div>
         <div class="col-sm-6 col-lg-5">
-            <h6 class="hi">Привет, ${userinfo.name}! | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h6>
-            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <form id="logoutForm" method="post" action="${contextPath}/logout">
+            <h6 class="hi">Привет, <th:block th:text="${userinfo.name}"></th:block>! | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h6>
+            <th:block th:if="${userinfo.name} != null">
+                <form id="logoutForm" th:method="post" th:action="@{/logout}">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
-            </c:if>
+            </th:block>
         </div>
     </div>
     <div class="row">
@@ -31,7 +24,7 @@
         <div class="col-sm-9 col-lg-9"><a href="/admin/users/new-user" class="c">Добавить нового пользователя</a></div>
     </div>
     <div class="row castom">
-        <%--        Меню--%>
+<!--                Меню-->
         <div class="col-sm-4">
             <ul class="nav">
                 <li class="nav-header">Главные ссылки</li>
@@ -45,38 +38,33 @@
                 <li><a href="#">Вакансии</a></li>
             </ul>
         </div>
-        <%--    Основной контейнер--%>
+<!--            Основной контейнер-->
         <div class="col-sm-8">
-            <form method="post" action="/admin/users/<c:out value='${user.id}'/>">
-                <input type="hidden" name="_method" value="patch"/>
+            <form th:method="patch" th:action="@{/admin/users/{id}(id = ${user.id})}" th:object="${user}">
+<!--                <input type="hidden" name="_method" value="patch"/>-->
 
-                ID: <c:out value="${user.id}" />
+                ID: <th:block th:text="${user.getId()}"></th:block>
                 </p>
 
                 Edit user login:
-                <input type="text" name="login" value="${user.login}" />
-                <c:if test="${empty user.login}">Note: you must enter a name</c:if>
+                <input type="text" name="login" th:value="${user.getLogin()}" required/>
+                <div th:if="${#fields.hasErrors('login')}"></div>
                 </p>
 
                 Edit user password:
-                <input type="text" name="password" value="${user.password}" />
-                <c:if test="${noPassword}">Note: you must enter a name</c:if>
+                <input type="text" name="password" th:value="${user.getPassword()}" required/>
+                <div th:if="${#fields.hasErrors('password')}"></div>
                 </p>
 
                 Edit user role:
 
                 <p><select multiple size="3" name="addrole">
-                    <c:forEach var="role" items="${roles}">
-                    <option value="${role.name}">${role.name}</option>
-                    </c:forEach>
+                    <th:block th:each="role : ${roles}">
+                        <option th:value="${role.getName()}"><th:block th:text="${role.getName()}"></th:block></option>
+                    </th:block>
                 </select></p>
 
-<%--                <input type="text" name="role" value="--%>
-<%--                        <c:forEach var="role" items="${user.roles}">--%>
-<%--                                ${role.name}--%>
-<%--                        </c:forEach>--%>
-<%--                    " />--%>
-                <c:if test="${noRole}">Note: you must enter a role</c:if>
+<!--                <div th:if="${#fields.hasErrors('addrole')}"></div>-->
                 </p>
 
                 <input type="submit" value="Сохранить" />
@@ -89,7 +77,6 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
 </body>
 </html>
