@@ -58,7 +58,7 @@
 
                 Edit user role:
 
-                <p><select multiple size="3" name="addrole">
+                <p><select multiple size="3" name="addrole" required>
                     <th:block th:each="role : ${roles}">
                         <option th:value="${role.getName()}"><th:block th:text="${role.getName()}"></th:block></option>
                     </th:block>
